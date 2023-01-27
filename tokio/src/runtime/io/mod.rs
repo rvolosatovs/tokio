@@ -177,6 +177,9 @@ impl Driver {
                 // In case of wasm32_wasi this error happens, when trying to poll without subscriptions
                 // just return from the park, as there would be nothing, which wakes us up.
             }
+            #[cfg(tokio_wasi)]
+            _ => {}
+            #[cfg(not(tokio_wasi))]
             Err(e) => panic!("unexpected error when polling the I/O driver: {:?}", e),
         }
 
